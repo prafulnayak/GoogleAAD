@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ConstraintL</string>
+    <string name="silent_button">Normal VIew</string>
+    <string name="silent_button2">second Custome View</string>
+    <string name="plus_symbol">+</string>
+    <string name="good">Good</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

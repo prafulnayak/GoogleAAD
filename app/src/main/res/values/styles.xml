@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--added for preference for this implementation 'com.android.support:preference-v7:28.0.0' -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="vase">
+        <item name="android:gravity">center</item>
+        <item name="android:color">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="scoreB" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+    
+    <style name="plusB" parent="scoreB">
+        <item name="android:src">@drawable/ic_plus</item>
+        <item name="android:contentDescription">@string/app_nmae</item>
+    </style>
+
+
+    <string name="app_nmae">plus_b</string>
+</resources>

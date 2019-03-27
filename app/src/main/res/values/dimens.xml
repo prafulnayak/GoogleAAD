@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="oval_dimen">3dp</dimen>
+    <dimen name="plus_size">40sp</dimen>
+    <dimen name="text_size">30sp</dimen>
+</resources>
