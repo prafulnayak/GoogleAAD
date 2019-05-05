@@ -4,12 +4,16 @@ import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceManager;
+
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String DAYNIGHTMODE = "day_night";
     CustomeView customeView;
 
     FrameLayout mLayout;
@@ -55,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText number1, number2;
     private Button add, sub;
+    static final String STATE_SCORE_1 = "55";
+    static final String STATE_SCORE_2 = "88";
+
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile =
+            "org.sairaa.android.hellosharedprefs";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +76,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         customeView = findViewById(R.id.c_view);
 
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
         number1 = findViewById(R.id.editText1);
         number2 = findViewById(R.id.editText2);
         add = findViewById(R.id.add);
         sub = findViewById(R.id.sub);
+
+        //shared preference
+        int nightMode = mPreferences.getInt(DAYNIGHTMODE,1);
+        if (nightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode
+                    (AppCompatDelegate.MODE_NIGHT_YES);
+
+
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode
+                    (AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
+
+        if (savedInstanceState != null) {
+            int mScore1 = savedInstanceState.getInt(STATE_SCORE_1);
+            int mScore2 = savedInstanceState.getInt(STATE_SCORE_2);
+
+            //Set the score text views
+            number1.setText(String.valueOf(mScore1));
+            number2.setText(String.valueOf(mScore2));
+        }
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +137,70 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Save the scores.
+//        outState.putInt(STATE_SCORE_1, Integer.parseInt(number1.getText().toString().trim()));
+//        outState.putInt(STATE_SCORE_2, Integer.parseInt(number2.getText().toString().trim()));
+        super.onSaveInstanceState(outState);
+    }
 
 
-//    @Override
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+//        int nightMode = AppCompatDelegate.getDefaultNightMode();
+        int nightMode = mPreferences.getInt(DAYNIGHTMODE,AppCompatDelegate.MODE_NIGHT_YES);
+
+//        preferencesEditor.putInt(COLOR_KEY, mColor);
+
+        if(nightMode == AppCompatDelegate.MODE_NIGHT_YES){
+            menu.findItem(R.id.night_mode).setTitle(R.string.day_mode);
+        } else{
+            menu.findItem(R.id.night_mode).setTitle(R.string.night_mode);
+        }
+
+
+// Recreate the activity for the theme change to take effect.
+//        recreate();
+
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.night_mode) {
+            // Get the night mode state of the app.
+//            int nightMode = AppCompatDelegate.getDefaultNightMode();
+
+            int nightMode = mPreferences.getInt(DAYNIGHTMODE,AppCompatDelegate.MODE_NIGHT_YES);
+
+            SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+
+            //Set the theme mode for the restarted activity
+            if (nightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode
+                        (AppCompatDelegate.MODE_NIGHT_NO);
+
+                preferencesEditor.putInt(DAYNIGHTMODE, AppCompatDelegate.MODE_NIGHT_NO);
+                preferencesEditor.apply();
+
+            } else {
+                AppCompatDelegate.setDefaultNightMode
+                        (AppCompatDelegate.MODE_NIGHT_YES);
+                preferencesEditor.putInt(DAYNIGHTMODE, AppCompatDelegate.MODE_NIGHT_YES);
+                preferencesEditor.apply();
+            }
+// Recreate the activity for the theme change to take effect.
+            recreate();
+        }
+        return true;
+    }
+
+    //    @Override
 //    public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
 //
 //    }
