@@ -67,6 +67,7 @@ public class CustomeView extends View {
             case MotionEvent.ACTION_DOWN:
                 downTouch = true;
                 Log.e("click","action down");
+                Toast.makeText(getContext(), "action down", Toast.LENGTH_SHORT).show();
                 return true;
 
             case MotionEvent.ACTION_UP:
@@ -90,6 +91,7 @@ public class CustomeView extends View {
          super.performClick();
 
         Log.e("click","performed");
+        Toast.makeText(getContext(), "click performed", Toast.LENGTH_SHORT).show();
          return true;
     }
 }
